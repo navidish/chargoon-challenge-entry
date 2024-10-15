@@ -7,7 +7,7 @@ import { getNodes } from "./transportLayer";
 import { NodeType,MenuAction } from "./types";
 import { notification } from "antd";
 import { ArgsProps, IconType } from "antd/lib/notification";
-import { deleteNodeFromTree } from "./utils";
+import { addNodeToParent, deleteNodeFromTree } from "./utils";
 
 function App() {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -38,8 +38,10 @@ function App() {
       case MenuAction.ADD:
         break;
       case MenuAction.CUT:
+        setSelectedItem(node)
         break;
       case MenuAction.PASTE:
+        handlePasteNode(node)
         break;
       case MenuAction.DELETE:
           handleDeleteNode(node)
@@ -55,6 +57,16 @@ function App() {
       openNotification({message:'حذف',description:'آیتم موردنظر حذف شد.'},'success');
     }
   };
+
+  const handlePasteNode = (targetNode: NodeType) => {
+    if (selectedItem) {
+      const filteredTree = deleteNodeFromTree(treeData,selectedItem.key);
+      const updatedTree = addNodeToParent(filteredTree, selectedItem, targetNode.key);
+      setTreeData(updatedTree);
+      setSelectedItem(null);
+      openNotification({ message: 'چسباندن', description: 'آیتم با موفقیت چسبانده شد.' }, 'success');
+  }};
+  
   const handleUpdateTree = (nodes: NodeType[]) => {
     setTreeData(nodes);
   }

@@ -10,3 +10,19 @@ export const deleteNodeFromTree = (nodes: NodeType[], key: string): NodeType[] =
         return acc;
     }, []);
 };
+
+export const addNodeToParent = (nodes: NodeType[], newNode: NodeType, parentKey: string): NodeType[] => {
+    return nodes.map(node => {
+        if (node.key === parentKey) {
+          const updatedNewNode = { ...newNode, parentKey: parentKey };
+          return {
+              ...node,
+              children: [...(node.children || []), updatedNewNode],
+          };
+        }
+        if (node.children) {
+            return { ...node, children: addNodeToParent(node.children, newNode, parentKey) };
+        }
+        return node;
+    });
+  };
