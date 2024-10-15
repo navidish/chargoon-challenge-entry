@@ -17,6 +17,7 @@ interface Props {
 
 const TreeExtended: React.FC<Props> = ({ handleContextMenuClick }) => {
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
+  const [searchValue, setSearchValue] = useState<string>();
   const [autoExpandParent, setAutoExpandParent] = useState(true);
   const searchedKeyword = useRef();
   const [searchResultVisible, setSearchResultVisible] = useState(false);
@@ -26,32 +27,30 @@ const TreeExtended: React.FC<Props> = ({ handleContextMenuClick }) => {
     setExpandedKeys(newExpandedKeys);
     setAutoExpandParent(false);
   };
-  const [searchValue, setSearchValue] = useState<string>();
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
 
-  useEffect(() => {
-    if (setSearchResultVisible) {
-      setFlatData(
-        ConvertTreeToFlat(treeData).filter((item: NodeType) =>
-          item.title.includes(searchValue)
-        )
-      );
-    }
-  }, [searchValue, treeData, searchResultVisible]);
-
   const handlePressEnter = () => {
-    setSearchResultVisible(!searchResultVisible);
+    !!searchValue
+      ? setFlatData(
+          ConvertTreeToFlat(treeData).filter((item: NodeType) =>
+            item.title.includes(searchValue)
+          )
+        )
+      : setFlatData([]);
+    setSearchResultVisible(!!searchValue);
   };
 
   const titleRenderer = (node: NodeType) => {
     return <Node node={node} handleContextMenuClick={handleContextMenuClick} />;
   };
-  const toggleSearchResultVisibility = () => {
+
+  const handleToggleSearchResultVisibility = () => {
     setSearchResultVisible((prev) => !prev);
   };
+
   return (
     <div className="tree-wrap">
       <Search
@@ -72,7 +71,7 @@ const TreeExtended: React.FC<Props> = ({ handleContextMenuClick }) => {
       <SearchResult
         items={flatData ?? []}
         searchResultVisible={searchResultVisible}
-        toggleSearchResultVisibility={toggleSearchResultVisibility}
+        onToggleSearchResultVisibility={handleToggleSearchResultVisibility}
       />
     </div>
   );

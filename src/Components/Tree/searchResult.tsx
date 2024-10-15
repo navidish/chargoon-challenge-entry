@@ -5,19 +5,18 @@ import ArrowDownIcon from '../SvgIcons/arrow-down';
 interface Props {
   items: (NodeType & { hierarchy: string[] })[];
   searchResultVisible: boolean;
-  toggleSearchResultVisibility: () => void;
+  onToggleSearchResultVisibility: () => void;
 }
 
 function SearchResult({
   items,
   searchResultVisible,
-  toggleSearchResultVisibility,
+  onToggleSearchResultVisibility,
 }: Props) {
-  console.log('searchResultVisible', searchResultVisible);
   return (
     <div
       className="search-result"
-      onClick={toggleSearchResultVisibility}
+      onClick={onToggleSearchResultVisibility}
       style={{
         height: `${searchResultVisible ? '200px' : '50px'}`,
         overflow: 'auto',
