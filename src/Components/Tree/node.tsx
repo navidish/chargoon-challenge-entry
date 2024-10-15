@@ -1,10 +1,10 @@
 import React from 'react';
-import { NodeType } from '../../types';
+import { NodeType,MenuAction } from '../../types';
 import {ContextMenuTriggerEx, ContextMenuItemEx, ContextMenuEx } from '../ContextMenu';
 
 interface Props {
 	node: NodeType;
-	handleContextMenuClick: (key: string) => void;
+	handleContextMenuClick: (key: number,node:NodeType) => void;
 }
 
 function Node({node, handleContextMenuClick}: Props) {
@@ -18,10 +18,10 @@ function Node({node, handleContextMenuClick}: Props) {
        />
          
       <ContextMenuEx  id={node.key}>
-        <ContextMenuItemEx handleClick={handleContextMenuClick('ACTION1')} title={'افزودن زیرشاخه'}/>
-        <ContextMenuItemEx handleClick={handleContextMenuClick('ACTION2')} title={'برش'}/>
-        <ContextMenuItemEx handleClick={handleContextMenuClick('ACTION3')} title={'چسباندن'}/>
-        <ContextMenuItemEx handleClick={handleContextMenuClick('ACTION4')} title={'حذف'}/>
+      <ContextMenuItemEx  handleClick={() => handleContextMenuClick(MenuAction.ADD,node)} title={'افزودن زیرشاخه'}/>
+        <ContextMenuItemEx  handleClick={() => handleContextMenuClick(MenuAction.CUT,node)} title={'برش'}/>
+        <ContextMenuItemEx handleClick={() => handleContextMenuClick(MenuAction.PASTE,node)} title={'چسباندن'}/>
+        <ContextMenuItemEx  handleClick={() => handleContextMenuClick(MenuAction.DELETE,node)} title={'حذف'}/>
       </ContextMenuEx>
  
     </div>

@@ -12,3 +12,9 @@ export interface NodeType {
 	hierarchy: string[];
 	accesses: string[];
 }
+export enum MenuAction {
+	ADD,
+	CUT,
+	PASTE,
+	DELETE
+}

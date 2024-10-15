@@ -9,7 +9,7 @@ import SearchResult from './searchResult';
 const { Search } = Input;
 
 interface Props {
-  handleContextMenuClick: (key: string) => void;
+  handleContextMenuClick: (key: number,node:NodeType) => void;
 }
 
 const TreeExtended: React.FC<Props> = ({ handleContextMenuClick }) => {
