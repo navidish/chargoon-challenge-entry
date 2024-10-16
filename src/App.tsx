@@ -11,7 +11,7 @@ import { addNodeToParent, deleteNodeFromTree } from "./utils";
 
 function App() {
   const [selectedItem, setSelectedItem] = useState(null);
-  const [showEdit, setShowEdit] = useState(true);
+  const [showEdit, setShowEdit] = useState(false);
   const [treeData, setTreeData] = useState([]);
   const [api, contextHolder] = notification.useNotification();
 
@@ -33,9 +33,11 @@ function App() {
     })
   }
 
-  const handleContextMenuClick = (actionKey: number, node: NodeType) => {
+  const handleContextMenuClick = (event:React.MouseEvent,actionKey: number, node: NodeType) => {
+    event.stopPropagation();
     switch (actionKey) {
       case MenuAction.ADD:
+        setShowEdit(false)
         break;
       case MenuAction.CUT:
         setSelectedItem(node)
@@ -75,6 +77,11 @@ function App() {
 
   }
 
+  const handleItemClick = (node:NodeType) => {
+      setSelectedItem(node)
+      setShowEdit(true)
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -85,9 +92,9 @@ function App() {
       <div className="App">
       {contextHolder}
         <Sidebar>
-          <ExtendedTree handleContextMenuClick={handleContextMenuClick} />
+          <ExtendedTree handleContextMenuClick={(e,key,node) => handleContextMenuClick(e,key,node)} handleItemClick={handleItemClick} />
         </Sidebar>
-        {showEdit && <Form item={selectedItem} updateNode={handleUpdateNode} />}
+        <Form item={selectedItem} updateNode={handleUpdateNode} editMode={showEdit} />
       </div>
     </AppContext.Provider>
   );

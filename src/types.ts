@@ -1,4 +1,5 @@
 export interface UserType {
+	code?:string;
 	title: string;
 	isDefault: boolean;
 }
@@ -16,5 +17,9 @@ export enum MenuAction {
 	ADD,
 	CUT,
 	PASTE,
+	DELETE
+}
+export enum TableAction {
+	ISDEFAULT,
 	DELETE
 }

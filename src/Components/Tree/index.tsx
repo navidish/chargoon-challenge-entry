@@ -12,10 +12,11 @@ import ArrowDownIcon from '../SvgIcons/arrow-down';
 const { Search } = Input;
 
 interface Props {
-  handleContextMenuClick: (key: number, node: NodeType) => void;
+  handleContextMenuClick: (event:React.MouseEvent,key: number, node: NodeType) => void;
+  handleItemClick: (node: NodeType) => void;
 }
 
-const TreeExtended: React.FC<Props> = ({ handleContextMenuClick }) => {
+const TreeExtended: React.FC<Props> = ({ handleContextMenuClick,handleItemClick }) => {
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
   const [searchValue, setSearchValue] = useState<string>();
   const [autoExpandParent, setAutoExpandParent] = useState(true);
@@ -44,7 +45,7 @@ const TreeExtended: React.FC<Props> = ({ handleContextMenuClick }) => {
   };
 
   const titleRenderer = (node: NodeType) => {
-    return <Node node={node} handleContextMenuClick={handleContextMenuClick} />;
+    return <Node node={node} handleContextMenuClick={(e,key,node)=>handleContextMenuClick(e,key,node)}  handleItemClick={handleItemClick} />;
   };
 
   const handleToggleSearchResultVisibility = () => {

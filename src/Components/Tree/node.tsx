@@ -4,12 +4,13 @@ import {ContextMenuTriggerEx, ContextMenuItemEx, ContextMenuEx } from '../Contex
 
 interface Props {
 	node: NodeType;
-	handleContextMenuClick: (key: number,node:NodeType) => void;
+	handleContextMenuClick: (event:React.MouseEvent, key: number, node: NodeType) => void;
+  handleItemClick: (node: NodeType) => void;
 }
 
-function Node({node, handleContextMenuClick}: Props) {
+function Node({node, handleContextMenuClick,handleItemClick}: Props) {
 	return (
-    <div>
+    <div onClick={() => handleItemClick(node)}>
       {/* NOTICE: id must be unique between EVERY <ContextMenuTrigger> and <ContextMenu> pair */}
       {/* NOTICE: inside the pair, <ContextMenuTrigger> and <ContextMenu> must have the same id */}
 			<ContextMenuTriggerEx
@@ -18,10 +19,10 @@ function Node({node, handleContextMenuClick}: Props) {
        />
          
       <ContextMenuEx  id={node.key}>
-        <ContextMenuItemEx disabled={false} handleClick={() => handleContextMenuClick(MenuAction.ADD,node)} title={'افزودن زیرشاخه'}/>
-        <ContextMenuItemEx disabled={node?.children?.length > 0} handleClick={() => handleContextMenuClick(MenuAction.CUT,node)} title={'برش'}/>
-        <ContextMenuItemEx disabled={false} handleClick={() => handleContextMenuClick(MenuAction.PASTE,node)} title={'چسباندن'}/>
-        <ContextMenuItemEx disabled={false} handleClick={() => handleContextMenuClick(MenuAction.DELETE,node)} title={'حذف'}/>
+        <ContextMenuItemEx disabled={false} handleClick={(event:React.MouseEvent) => handleContextMenuClick(event,MenuAction.ADD,node)} title={'افزودن زیرشاخه'}/>
+        <ContextMenuItemEx disabled={node?.children?.length > 0} handleClick={(event:React.MouseEvent) => handleContextMenuClick(event,MenuAction.CUT,node)} title={'برش'}/>
+        <ContextMenuItemEx disabled={false} handleClick={(event:React.MouseEvent) => handleContextMenuClick(event,MenuAction.PASTE,node)} title={'چسباندن'}/>
+        <ContextMenuItemEx disabled={false} handleClick={(event:React.MouseEvent) => handleContextMenuClick(event,MenuAction.DELETE,node)} title={'حذف'}/>
       </ContextMenuEx>
  
     </div>

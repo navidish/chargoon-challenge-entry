@@ -71,3 +71,29 @@ body {
 	align-items:center;
 }
 
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+  }
+  
+table td,
+table th {
+	border-bottom: 1px solid rgb(229, 231, 235);
+	text-align: right;
+	white-space: nowrap;
+}
+
+table th {
+	padding: 0.6rem 1rem;
+	background-color: rgb( 243, 244, 246);
+	color: rgb(75, 85, 99);
+	font-size: 0.9rem;
+  }
+  
+table td {
+	font-size: 0.85rem;
+	padding: 1rem 1rem;
+	color: rgb(75, 85, 99);
+  }
