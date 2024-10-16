@@ -47,3 +47,27 @@ body {
 	overflow: auto;
 	padding: 12px 6px;
 }
+.searchResultItem{
+	width: 100%;
+}
+
+.iconContainer{
+	width: 100%;
+	margin-top: 16px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items:center;
+
+}
+.arrowIcon{
+	width: 32px;
+	height: 32px;
+	background-color: rgb( 243, 244, 246);
+	border-radius: 16px;
+	padding: 8px;
+	display: flex;
+	justify-content: center;
+	align-items:center;
+}
+

@@ -18,7 +18,7 @@ function SearchResult({
       className="search-result"
       onClick={onToggleSearchResultVisibility}
       style={{
-        height: `${searchResultVisible ? '200px' : '50px'}`,
+        height: `${searchResultVisible ? '268px' : '68px'}`,
         overflow: 'auto',
         width: '98%',
       }}
@@ -28,18 +28,18 @@ function SearchResult({
           <div className="arrowIcon">
             <ArrowUpIcon />
           </div>
-        </div>
-      ) : (
+          {
+            items.length > 0  ? items.map((item) => (
+              <div className='searchResultItem'>{item.title}</div>
+            )) : <h5>نتیجه‌ای برای جستجوی شما وجود نداشت.</h5>
+          }
+          </div> ) : (
         <div className="iconContainer">
           <div className="arrowIcon">
             <ArrowDownIcon />
           </div>
         </div>
       )}
-
-      {items.map((item) => (
-        <div>{item.title}</div>
-      ))}
     </div>
   );
 }
