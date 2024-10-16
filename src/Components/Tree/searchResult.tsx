@@ -28,18 +28,18 @@ function SearchResult({
           <div className="arrowIcon">
             <ArrowUpIcon />
           </div>
-        </div>
-      ) : (
+          {
+            items.length > 0  ? items.map((item) => (
+              <div>{item.title}</div>
+            )) : <h5>نتیجه‌ای برای جستجوی شما وجود نداشت.</h5>
+          }
+          </div> ) : (
         <div className="iconContainer">
           <div className="arrowIcon">
             <ArrowDownIcon />
           </div>
         </div>
       )}
-
-      {items.map((item) => (
-        <div>{item.title}</div>
-      ))}
     </div>
   );
 }
