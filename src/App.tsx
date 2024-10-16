@@ -37,7 +37,7 @@ function App() {
     event.stopPropagation();
     switch (actionKey) {
       case MenuAction.ADD:
-        setShowEdit(false)
+        handleAddNode(node)
         break;
       case MenuAction.CUT:
         setSelectedItem(node)
@@ -50,6 +50,11 @@ function App() {
           break;
     }
   }
+  const handleAddNode = (targetNode: NodeType) => {
+    setShowEdit(false)
+    setSelectedItem(targetNode)
+  };
+
 
   const handleDeleteNode = (deletedNode: NodeType) => {
     if(deletedNode.children.length > 0 ){
@@ -74,7 +79,12 @@ function App() {
   }
 
   const handleUpdateNode = (key: string, data: any) => {
-
+    if(selectedItem){
+      const updatedTree = addNodeToParent(treeData, data, key);
+      setTreeData(updatedTree); 
+      setShowEdit(false);
+      openNotification({ message: 'ایجاد', description: 'آیتم با موفقیت ایجاد شد.' }, 'success');
+    }
   }
 
   const handleItemClick = (node:NodeType) => {

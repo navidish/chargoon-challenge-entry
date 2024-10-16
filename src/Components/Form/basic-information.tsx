@@ -1,5 +1,5 @@
 import { Form, Input } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import UserAutoComplete from './user-autocomplete';
 import UserTable from './user-table';
 import { NodeType, TableAction, UserType } from '../../types';
@@ -7,32 +7,44 @@ import { NodeType, TableAction, UserType } from '../../types';
 interface Props {
 	initialValue?: NodeType;
 	editMode?: boolean;
-	onChangeTable?:(data:any) => void
+	resetForm?:boolean;
+	onChangeForm?:(data:any) => void
 }
-function BasicInformation({initialValue,editMode }: Props) {
+function BasicInformation({initialValue,editMode,resetForm,onChangeForm }: Props) {
 	const [form] = Form.useForm();
-	useEffect(() => {
-		editMode ? form.setFieldsValue(initialValue) : form.resetFields()
-	},[editMode])
-
-	const mockUsers: UserType[] = [
+	const [formData, setFormData] = useState<NodeType|null>(null);
+	const [users, setUsers] = useState<UserType[]>([
 		{ code: '1', title: 'کاربر یک', isDefault: false },
 		{ code: '2', title: 'کاربر دو', isDefault: true },
 		{ code: '3', title: 'کاربر سه',  isDefault: false },
-	];
+	]);
+	// useEffect(()=>{
+	// 	if(resetForm){
+	// 		form.resetFields();
+	// 		setUsers([]);
+	// 	}
+	// },[resetForm])
+	useEffect(() => {
+		editMode ? form.setFieldsValue(initialValue) : form.resetFields()
+	},[editMode,resetForm]);
 
+	useEffect(()=>{
+		const FormValue = {...formData,users};
+		onChangeForm(FormValue)
+	},[formData,users])
+	
 	const handleOnChangeTable = (user: UserType, action: TableAction) => {
 		switch (action) {
 			case TableAction.ISDEFAULT:
-				mockUsers.map(user => ({...user, isDefault: user.code === user.code }))
+				setUsers(users.map(item => ({...item, isDefault: item.code === user.code })))
 				break;
 			case TableAction.DELETE:
-				mockUsers.filter(item => item.code !== user.code)
+				setUsers(users.filter(item => item.code !== user.code))
 				break;
 		}
 	}
 	const onValuesChange = (changedValues: any) => {
-			form.setFieldsValue(changedValues)
+			setFormData({ ...form.getFieldsValue(), ...changedValues });
 	};
 	
 
@@ -48,7 +60,7 @@ function BasicInformation({initialValue,editMode }: Props) {
 				<UserAutoComplete />
 			</Form.Item>
 			<Form.Item name="usersTable" label="جدول" labelCol={{ span: 2 }}>
-               <UserTable initialValue={initialValue?.users ?? mockUsers} onHandleUsers={(user,action)=>{ handleOnChangeTable(user,action) }} />
+               <UserTable initialValue={editMode ? initialValue?.users : users} onHandleUsers={(user,action)=>{ handleOnChangeTable(user,action) }} />
 			</Form.Item>
 		</Form>
 	);

@@ -25,6 +25,7 @@ export const addNodeToParent = (
       return {
         ...node,
         children: [...(node.children || []), updatedNewNode],
+        hierarchy: [...node.hierarchy, newNode.key]
       };
     }
     if (node.children) {
@@ -47,3 +48,4 @@ export const ConvertTreeToFlat = (items: NodeType[]) => {
     }
   }, []);
 };
+

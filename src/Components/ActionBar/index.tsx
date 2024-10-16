@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import React from 'react';
 interface ActionType {
 	title: string;
@@ -10,9 +11,7 @@ interface Props {
 
 function ActionBar({ actions }: Props) {
 	return <div className='actionbar' >
-		{/* 
-	Display actions
- */}
+	  <Button type="primary" onClick={actions[0].handler}>{actions[0].title}</Button>
 	</div>;
 }
 export default ActionBar
